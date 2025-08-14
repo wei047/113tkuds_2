@@ -1,6 +1,5 @@
 import java.util.Map;
 
-/** 練習 3：刪除後的修復（四種兄弟情況）。 */
 public class RBDeleteFixupExercise {
     public static void main(String[] args) {
         RBTree<Integer, Integer> t = new RBTree<>();

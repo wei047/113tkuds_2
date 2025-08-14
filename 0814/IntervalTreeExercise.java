@@ -1,11 +1,9 @@
 import java.util.*;
 
-/** 練習 5：Interval Tree（以紅黑樹為底，維護 max 高端點） */
 public class IntervalTreeExercise {
 
     static final boolean RED = true, BLACK = false;
 
-    /** 對外公開的區間型別（避免「Exporting non-public type」警告） */
     public static final class Interval {
         public final int lo, hi;
         public Interval(int lo, int hi){
@@ -16,7 +14,6 @@ public class IntervalTreeExercise {
         @Override public String toString(){ return "["+lo+","+hi+"]"; }
     }
 
-    /** 內部節點型別（不對外暴露） */
     private static final class Node {
         Interval iv;
         int max;
@@ -34,7 +31,6 @@ public class IntervalTreeExercise {
         NIL.max = Integer.MIN_VALUE;
     }
 
-    /* ========== Public API ========== */
     public void insert(int lo, int hi){ insert(new Interval(lo, hi)); }
     public boolean delete(int lo, int hi){ return delete(new Interval(lo, hi)); }
     public Interval searchAnyOverlap(int lo, int hi){ return searchAnyOverlap(new Interval(lo, hi)); }
@@ -45,7 +41,6 @@ public class IntervalTreeExercise {
     }
     public void inorderPrint(){ inorderPrint(root); System.out.println(); }
 
-    /* ========== 基礎工具 ========== */
     private void pull(Node x){ x.max = Math.max(x.iv.hi, Math.max(x.left.max, x.right.max)); }
 
     private void leftRotate(Node x){
@@ -66,7 +61,6 @@ public class IntervalTreeExercise {
         pull(x); pull(y);
     }
 
-    /* ========== 插入 ========== */
     public void insert(Interval zIv){
         Node z = new Node(zIv);
         z.left = z.right = z.parent = NIL;
@@ -107,7 +101,6 @@ public class IntervalTreeExercise {
         root.color = BLACK;
     }
 
-    /* ========== 刪除 ========== */
     public boolean delete(Interval key){
         Node z = searchExact(key);
         if (z == null) return false;

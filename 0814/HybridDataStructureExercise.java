@@ -1,6 +1,5 @@
 import java.util.*;
 
-/** 練習 7：HybridMap = HashMap + RBTree，兼顧 O(1) get 與 O(log n) 有序操作。 */
 public class HybridDataStructureExercise {
 
     public static class HybridMap<K extends Comparable<K>, V> {
@@ -13,7 +12,7 @@ public class HybridDataStructureExercise {
 
         public V put(K k, V v){
             V old = dict.put(k, v);
-            order.insert(k, v); // RBTree.insert 若已存在會更新 value
+            order.insert(k, v);
             return old;
         }
 
@@ -31,7 +30,7 @@ public class HybridDataStructureExercise {
         public K lastKey(){
             for (Map.Entry<K,V> e : order.reverse()) return e.getKey();
             return null;
-        }
+        } 
 
         public K ceilingKey(K k){
             for (Map.Entry<K,V> e : order.range(k, null, true, true)) return e.getKey();
@@ -48,7 +47,6 @@ public class HybridDataStructureExercise {
         public Iterable<Map.Entry<K,V>> inorder(){ return order.inorder(); }
     }
 
-    /* ===== Demo ===== */
     public static void main(String[] args){
         HybridMap<Integer,String> hm = new HybridMap<>();
         hm.put(5,"a"); hm.put(2,"b"); hm.put(8,"c"); hm.put(1,"d"); hm.put(3,"e");

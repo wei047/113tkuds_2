@@ -1,6 +1,5 @@
 import java.util.*;
 
-/** 練習 9：簡易 Benchmark，對比 RBTree vs TreeMap/HashMap 的 insert/get/remove。 */
 public class BenchmarkFrameworkExercise {
 
     static class Timer {
@@ -32,7 +31,6 @@ public class BenchmarkFrameworkExercise {
         for (int k : keys) rb.delete(k);
         long rbDel = trb.stopNs();
 
-        // ===== TreeMap =====
         TreeMap<Integer,Integer> tm = new TreeMap<>();
         Timer ttm = new Timer();
 
@@ -48,7 +46,6 @@ public class BenchmarkFrameworkExercise {
         for (int k : keys) tm.remove(k);
         long tmDel = ttm.stopNs();
 
-        // ===== HashMap（參考）=====
         HashMap<Integer,Integer> hm = new HashMap<>();
         Timer thm = new Timer();
 
@@ -64,13 +61,11 @@ public class BenchmarkFrameworkExercise {
         for (int k : keys) hm.remove(k);
         long hmDel = thm.stopNs();
 
-        // ===== 結果 =====
         System.out.println("RBTree     insert=" + trb.ms(rbIns) + ", get=" + trb.ms(rbGet) + ", delete=" + trb.ms(rbDel));
         System.out.println("TreeMap    insert=" + trb.ms(tmIns) + ", get=" + trb.ms(tmGet) + ", delete=" + trb.ms(tmDel));
         System.out.println("HashMap(*) insert=" + trb.ms(hmIns) + ", get=" + trb.ms(hmGet) + ", delete=" + trb.ms(hmDel));
         System.out.println("* HashMap 無排序，僅作速度參考。");
 
-        // 小檢查：RBTree 維持有效
         System.out.println("RBTree validate after empty: " + rb.validate());
     }
 }

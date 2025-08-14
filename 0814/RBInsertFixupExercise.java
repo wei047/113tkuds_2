@@ -1,6 +1,5 @@
 import java.util.Map;
 
-/** 練習 2：插入後的修復（三種情況：叔叔紅、叔叔黑且內彎、叔叔黑且外彎）。 */
 public class RBInsertFixupExercise {
     public static void main(String[] args) {
         RBTree<Integer, Integer> t = new RBTree<>();

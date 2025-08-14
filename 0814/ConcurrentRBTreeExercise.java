@@ -2,10 +2,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
-/** 練習 6：並行安全的 RBTree 包裝（ReadWriteLock）。 */
 public class ConcurrentRBTreeExercise {
 
-    /** 執行緒安全 Map：以 RBTree 為底層，提供基本操作。 */
     static class ConcurrentRBTree<K extends Comparable<K>, V> {
         private final RBTree<K,V> tree = new RBTree<>();
         private final ReadWriteLock rw = new ReentrantReadWriteLock();
@@ -63,7 +61,6 @@ public class ConcurrentRBTreeExercise {
         }
     }
 
-    /* ===== Demo：多執行緒壓測 ===== */
     public static void main(String[] args) throws InterruptedException {
         ConcurrentRBTree<Integer,Integer> m = new ConcurrentRBTree<>();
         int threads = 4, N = 20000;
@@ -92,7 +89,7 @@ public class ConcurrentRBTreeExercise {
 
         System.out.println("size=" + m.size());
         System.out.println("validate=" + m.validate());
-        // 檢查 inorder 是否遞增
+
         List<Map.Entry<Integer,Integer>> list = m.snapshotInorder();
         boolean sorted = true;
         for (int i=1;i<list.size();i++) if (list.get(i-1).getKey() > list.get(i).getKey()) { sorted=false; break; }

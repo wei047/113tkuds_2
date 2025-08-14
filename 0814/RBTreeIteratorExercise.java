@@ -1,6 +1,5 @@
 import java.util.Map;
 
-/** 練習 4：中序、反向、範圍 迭代器；hasNext() / next() 已在 RBTree 內部實作。 */
 public class RBTreeIteratorExercise {
     public static void main(String[] args) {
         RBTree<Integer, String> t = new RBTree<>();
