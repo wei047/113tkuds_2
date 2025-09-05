@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+
+public class LC20_ValidParentheses_AlertFormat {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+        String s = br.readLine();
+        if (s == null) s = "";
+        if (!s.isEmpty() && s.charAt(0) == '\uFEFF') s = s.substring(1);
+
+        Deque<Character> st = new ArrayDeque<>();
+        Map<Character, Character> match = Map.of(')', '(', ']', '[', '}', '{');
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(' || c == '[' || c == '{') {
+                st.push(c);
+            } else {
+                Character need = match.get(c);
+                if (need == null || st.isEmpty() || st.pop() != need) {
+                    System.out.println("false");
+                    return;
+                }
+            }
+        }
+        System.out.println(st.isEmpty() ? "true" : "false");
+    }
+}
+// 時間複雜度：O(n)
