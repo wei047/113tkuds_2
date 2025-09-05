@@ -1,0 +1,67 @@
+import java.io.*;
+
+public class LC04_Median_QuakeFeeds {
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+        FastScanner(InputStream is) { this.in = is; }
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+        String next() throws IOException {
+            StringBuilder sb = new StringBuilder();
+            int c;
+            while ((c = read()) != -1 && c <= ' ') {}
+            if (c == -1) return null;
+            do { sb.append((char) c); c = read(); } while (c != -1 && c > ' ');
+            return sb.toString();
+        }
+        int nextInt() throws IOException { return Integer.parseInt(next()); }
+        double nextDouble() throws IOException { return Double.parseDouble(next()); }
+    }
+
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        String t = fs.next();
+        if (t == null) return;
+        int n = Integer.parseInt(t);
+        int m = fs.nextInt();
+        double[] A = new double[n];
+        double[] B = new double[m];
+        for (int i = 0; i < n; i++) A[i] = fs.nextDouble();
+        for (int i = 0; i < m; i++) B[i] = fs.nextDouble();
+        double ans = medianOfTwoSortedArrays(A, B);
+        System.out.printf(java.util.Locale.US, "%.1f%n", ans);
+    }
+
+    static double medianOfTwoSortedArrays(double[] A, double[] B) {
+        if (A.length > B.length) { double[] tmp = A; A = B; B = tmp; }
+        int n = A.length, m = B.length, totalLeft = (n + m + 1) / 2;
+        int lo = 0, hi = n;
+        double INF = 1e18;
+        while (lo <= hi) {
+            int i = (lo + hi) >>> 1;
+            int j = totalLeft - i;
+            double leftA  = (i == 0) ? -INF : A[i - 1];
+            double rightA = (i == n) ?  INF : A[i];
+            double leftB  = (j == 0) ? -INF : B[j - 1];
+            double rightB = (j == m) ?  INF : B[j];
+            if (leftA <= rightB && leftB <= rightA) {
+                if (((n + m) & 1) == 1) return Math.max(leftA, leftB);
+                return (Math.max(leftA, leftB) + Math.min(rightA, rightB)) / 2.0;
+            } else if (leftA > rightB) {
+                hi = i - 1;
+            } else {
+                lo = i + 1;
+            }
+        }
+        return 0.0;
+    }
+}
+// 時間複雜度：O(log(min(n,m)))
